@@ -1,0 +1,21 @@
+{
+  "name": "social_chatservice",
+  "version": "1.0.0",
+  "description": "ChatService",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url" : "git@github.com:social-services/chat.git"
+  },
+  "keywords": [
+    "ecosystem:allex",
+    "Service",
+    "Chat"
+  ],
+  "author": "Andrija Petrovic <andrija.hers@gmail.com>",
+  "license": "ISC"
+}
+

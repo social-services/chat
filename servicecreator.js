@@ -57,13 +57,36 @@ function createChatService(execlib, ParentService, chatbanklib) {
     return this.bank.allConversationsOfUser(username);
   };
   
+  ChatService.prototype.initiateChatConversationsWithUsers = function (username, usernames) {
+    if (!(this.bank && this.bank.conversationNotification && this.bank.conversationNotification.defer)){
+      console.log(this.bank.conversationNotification);
+      return q.reject(new lib.Error('ALREADY_DESTROYED'));
+    }
+    return this.bank.initiateConversationsOfUserForUsers(username, usernames);
+  };
+  
   ChatService.prototype.getMessages = function (userid, conversationid, oldestmessageid, howmany) {
     if (!(this.bank && this.bank.conversationNotification && this.bank.conversationNotification.defer)){
       console.log(this.bank.conversationNotification);
       return q.reject(new lib.Error('ALREADY_DESTROYED'));
     }
-    console.log('getting messagesOfConversation', userid, conversationid, oldestmessageid, howmany);
     return this.bank.messagesOfConversation(userid, conversationid, oldestmessageid, howmany);
+  };
+
+  ChatService.prototype.markMessageRcvd = function (userid, conversationid, messageid) {
+    if (!(this.bank && this.bank.conversationNotification && this.bank.conversationNotification.defer)){
+      console.log(this.bank.conversationNotification);
+      return q.reject(new lib.Error('ALREADY_DESTROYED'));
+    }
+    return this.bank.markMessageRcvd(userid, conversationid, messageid);
+  };
+
+  ChatService.prototype.markMessageSeen = function (userid, conversationid, messageid) {
+    if (!(this.bank && this.bank.conversationNotification && this.bank.conversationNotification.defer)){
+      console.log(this.bank.conversationNotification);
+      return q.reject(new lib.Error('ALREADY_DESTROYED'));
+    }
+    return this.bank.markMessageSeen(userid, conversationid, messageid);
   };
   
   return ChatService;

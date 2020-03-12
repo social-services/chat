@@ -28,8 +28,20 @@ function createUser(execlib, ParentUser) {
     qlib.promise2defer(this.__service.getAllConversations(username), defer);
   };
 
+  User.prototype.initiateChatConversationsWithUsers = function (username, usernames, defer) {
+    qlib.promise2defer(this.__service.initiateChatConversationsWithUsers(username, usernames), defer);
+  };
+
   User.prototype.getMessages = function (userid, conversationid, oldestmessageid, howmany, defer) {
     qlib.promise2defer(this.__service.getMessages(userid, conversationid, oldestmessageid, howmany), defer);
+  };
+
+  User.prototype.markMessageRcvd = function (userid, conversationid, messageid, defer) {
+    qlib.promise2defer(this.__service.markMessageRcvd(userid, conversationid, messageid), defer);
+  };
+
+  User.prototype.markMessageSeen = function (userid, conversationid, messageid, defer) {
+    qlib.promise2defer(this.__service.markMessageSeen(userid, conversationid, messageid), defer);
   };
 
   return User;

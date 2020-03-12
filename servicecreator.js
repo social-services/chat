@@ -15,7 +15,7 @@ function createChatService(execlib, ParentService, chatbanklib) {
   function ChatService(prophash) {
     ParentService.call(this, prophash);
     this.bank = new ChatBank({
-      path: 'Chat.db',
+      path: path: (prophash && prophash.chatdbpath) ? prophash.chatdbpath : 'Chat.db',
       starteddefer: this.readyToAcceptUsersDefer
     });
   }

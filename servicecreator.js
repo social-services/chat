@@ -1,21 +1,22 @@
-function createChatService(execlib, ParentService, chatbanklib) {
+function createChatService(execlib, ParentService, chatbanklib, chatmethoddescriptors, vararglib) {
   'use strict';
   
   var lib = execlib.lib,
     q = lib.q,
-    ChatBank = chatbanklib.Bank;
+    ChatBank = chatbanklib.Bank,
+    userPrototype2ServiceMethod = vararglib.userPrototype2ServiceMethod;
 
   function factoryCreator(parentFactory) {
     return {
       'service': require('./users/serviceusercreator')(execlib, parentFactory.get('service')),
-      'user': require('./users/usercreator')(execlib, parentFactory.get('user')) 
+      'user': require('./users/usercreator')(execlib, parentFactory.get('user'), chatmethoddescriptors, vararglib) 
     };
   }
 
   function ChatService(prophash) {
     ParentService.call(this, prophash);
     this.bank = new ChatBank({
-      path: path: (prophash && prophash.chatdbpath) ? prophash.chatdbpath : 'Chat.db',
+      path: (prophash && prophash.chatdbpath) ? prophash.chatdbpath : 'Chat.db',
       starteddefer: this.readyToAcceptUsersDefer
     });
   }

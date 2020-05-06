@@ -29,6 +29,7 @@ function createChatService(execlib, ParentService, chatbanklib, chatmethoddescri
     }
     this.bank = null;
     ParentService.prototype.__cleanUp.call(this);
+    chatbanklib.deInit();
   };
 
   ChatService.prototype.isInitiallyReady = function () {
@@ -42,12 +43,12 @@ function createChatService(execlib, ParentService, chatbanklib, chatmethoddescri
     return this.bank.conversationNotification.defer.promise;
   };
   
-  ChatService.prototype.processNewMessage = function (from, togroup, to, msg) {
+  ChatService.prototype.processNewMessage = function (from, togroup, to, msg, options) {
     if (!(this.bank && this.bank.conversationNotification && this.bank.conversationNotification.defer)){
       console.log(this.bank.conversationNotification);
       return q.reject(new lib.Error('ALREADY_DESTROYED'));
     }
-    return this.bank.processNewMessage(from, togroup, to, msg);
+    return this.bank.processNewMessage(from, togroup, to, msg, options);
   };
   
   ChatService.prototype.getAllConversations = function (username) {
@@ -88,6 +89,14 @@ function createChatService(execlib, ParentService, chatbanklib, chatmethoddescri
       return q.reject(new lib.Error('ALREADY_DESTROYED'));
     }
     return this.bank.markMessageSeen(userid, conversationid, messageid);
+  };
+  
+  ChatService.prototype.editMessage = function (from, conversationid, messageid, editedmsg) {
+    if (!(this.bank && this.bank.conversationNotification && this.bank.conversationNotification.defer)){
+      console.log(this.bank.conversationNotification);
+      return q.reject(new lib.Error('ALREADY_DESTROYED'));
+    }
+    return this.bank.editMessage(from, conversationid, messageid, editedmsg);
   };
   
   return ChatService;

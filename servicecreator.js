@@ -91,12 +91,28 @@ function createChatService(execlib, ParentService, chatbanklib, chatmethoddescri
     return this.bank.markMessageSeen(userid, conversationid, messageid);
   };
   
-  ChatService.prototype.editMessage = function (from, conversationid, messageid, editedmsg) {
+  ChatService.prototype.editMessage = function (from, conversationid, messageid, editedmsg, options) {
     if (!(this.bank && this.bank.conversationNotification && this.bank.conversationNotification.defer)){
       console.log(this.bank.conversationNotification);
       return q.reject(new lib.Error('ALREADY_DESTROYED'));
     }
-    return this.bank.editMessage(from, conversationid, messageid, editedmsg);
+    return this.bank.editMessage(from, conversationid, messageid, editedmsg, options);
+  };
+
+  ChatService.prototype.reportChatActivity = function (userid, conversationid) {
+    if (!(this.bank && this.bank.conversationNotification && this.bank.conversationNotification.defer)){
+      console.log(this.bank.conversationNotification);
+      return q.reject(new lib.Error('ALREADY_DESTROYED'));
+    }
+    return this.bank.ackUserActivity(userid, conversationid);
+  };
+
+  ChatService.prototype.createNewGroupWithMembers = function (creatorid, groupname, members) {
+    if (!(this.bank && this.bank.conversationNotification && this.bank.conversationNotification.defer)){
+      console.log(this.bank.conversationNotification);
+      return q.reject(new lib.Error('ALREADY_DESTROYED'));
+    }
+    return this.bank.createNewGroupWithMembers(creatorid, groupname, members);
   };
   
   return ChatService;

@@ -114,6 +114,21 @@ function createChatService(execlib, ParentService, chatbanklib, chatmethoddescri
     }
     return this.bank.createNewGroupWithMembers(creatorid, groupname, members);
   };
+
+  ChatService.prototype.removeConversation = function (conversationid) {
+    if (!(this.bank && this.bank.conversationNotification && this.bank.conversationNotification.defer)){
+      console.log(this.bank.conversationNotification);
+      return q.reject(new lib.Error('ALREADY_DESTROYED'));
+    }
+    return this.bank.removeConversation (conversationid, fakeconversationarchiver, fakemessagearchiver);
+  };
+
+  function fakeconversationarchiver (convid, conv) {
+    return q(convid);
+  }
+  function fakemessagearchiver (mid, msg) {
+    return q(mid);
+  }
   
   return ChatService;
 }
